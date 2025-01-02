@@ -15,9 +15,6 @@ import Calendar from './Calendar';
 import CompactCalendar from './CompactCalendar';
 import HabitMenu from './HabitMenu';
 
-// icons
-import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-
 // utils
 import getColorPalette from '../../utils/getColorPalette';
 import getTodayProgress from '../../utils//getTodayProgress';
