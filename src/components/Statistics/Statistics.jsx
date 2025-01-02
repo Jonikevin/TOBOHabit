@@ -38,7 +38,7 @@ function Statistics() {
 	// If simple view (Calendar), just show total completions and calendar
 	if (simpleView) {
 		return (
-			<Modal title="Calendar View">
+			<Modal title={modalTitle || "Calendar View"}>
 				<div className={styles.calendarWrapper}>
 					<div className={styles.streakInfo}>
 						<div>
