@@ -9,13 +9,15 @@ import CalendarModal from './components/Modal/CalendarModal';
 
 function App() {
 	return (
-		<BrowserRouter>
+		<BrowserRouter basename={process.env.PUBLIC_URL}>
 			<Routes>
-				<Route path='/' element={<MainPage />} />
-				<Route path='/modal/statistics' element={<Statistics />} />
-				<Route path='/modal/calendar' element={<CalendarModal />} />
-				<Route path='/modal/habitEditor' element={<HabitEditor />} />
-				<Route path='/modal/diary' element={<Diary />} />
+				<Route path="/" element={<MainPage />} />
+				<Route path="/modal">
+					<Route path="statistics" element={<Statistics />} />
+					<Route path="calendar" element={<CalendarModal />} />
+					<Route path="habitEditor" element={<HabitEditor />} />
+					<Route path="diary" element={<Diary />} />
+				</Route>
 			</Routes>
 		</BrowserRouter>
 	);

@@ -83,7 +83,14 @@ function HabitMenu(props) {
 			frequency,
 			modalTitle: title
 		},
-		null,
+		() => {
+			console.log("Calendar button clicked", {
+				completedDays,
+				colorPalette,
+				frequency,
+				modalTitle: title
+			});
+		},
 		true
 	], [
 		<MdEditSquare />,
@@ -133,8 +140,18 @@ function HabitMenu(props) {
 	]].map(
 		([icon, text, bgColor, to, state, onClick, arrow]) => (
 			<li key={text}>
-				<Link to={to ? (process.env.PUBLIC_URL + to) : null} state={state}>
-					<Button {...{ icon, text, bgColor, onClick, arrow }} />
+				<Link 
+					to={to || '#'} 
+					state={state}
+					onClick={(e) => {
+						if (onClick) {
+							e.preventDefault();
+							onClick();
+						}
+						console.log(`Clicked ${text}`, { to, state });
+					}}
+				>
+					<Button {...{ icon, text, bgColor, arrow }} />
 				</Link>
 			</li>
 		)
