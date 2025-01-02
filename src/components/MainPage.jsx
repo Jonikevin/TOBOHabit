@@ -11,6 +11,9 @@ import { ReactComponent as Calendar } from '../img/calendar.svg';
 import { MdAddToPhotos } from "react-icons/md";
 import { useHabitsStore } from '../stores/habitsStore';
 
+// Get version from package.json
+const version = "0.20.2"; // Current version
+
 const mainVariants = {
 	initial: { opacity: 0 },
 	animate: { opacity: 1 },
@@ -19,12 +22,20 @@ const mainVariants = {
 };
 
 function MainPage() {
-
 	const habits = useHabitsStore((s) => s.habits);
 	const filteredHabits = habits.filter((h) => !h.isArchived);
 
 	return (
 		<motion.div {...mainVariants}>
+			<div style={{ 
+				position: 'absolute', 
+				top: '1rem', 
+				right: '1rem',
+				fontSize: '0.8rem',
+				color: 'var(--text-color-secondary)'
+			}}>
+				v{version}
+			</div>
 			<Header />
 
 			<HabitList habits={filteredHabits} />
