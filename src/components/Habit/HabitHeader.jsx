@@ -12,12 +12,13 @@ import ProgressBar from './ProgressBar';
 // icons
 import { FaCheck } from "react-icons/fa";
 import { MdOutlineSettingsBackupRestore } from "react-icons/md";
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 function HabitHeader(props) {
 	const {
 		title, icon, frequency, diary, colorPalette,
 		isTodayCompleted, todayProgress, currentStreak,
-		isArchive,
+		isArchive, isCalendarExpanded, onToggleCalendar
 	} = props;
 
 	const habitsDispatch = useHabitsStore((s) => s.habitsDispatch);
@@ -92,17 +93,26 @@ function HabitHeader(props) {
 						/>
 					)}
 
-					<button
-						style={{ backgroundColor: isTodayCompleted ? baseColor : darkenedColor }}
-						className={`${styles.progressBtn} ${frequency > 1 ? styles.multiFrequency : ''}`}
-						onClick={handleUpdateProgress}
-					>
-						{progressPercentage === 100 ? (
-							<FaCheck />
-						) : (
-							<strong>{progressPercentage}%</strong>
-						)}
-					</button>
+					<div className={styles.buttonGroup}>
+						<button
+							style={{ backgroundColor: isTodayCompleted ? baseColor : darkenedColor }}
+							className={`${styles.progressBtn} ${frequency > 1 ? styles.multiFrequency : ''}`}
+							onClick={handleUpdateProgress}
+						>
+							{progressPercentage === 100 ? (
+								<FaCheck />
+							) : (
+								<strong>{progressPercentage}%</strong>
+							)}
+						</button>
+						<button 
+							onClick={onToggleCalendar}
+							className={styles.calendarToggle}
+							style={{ backgroundColor: darkenedColor }}
+						>
+							{isCalendarExpanded ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+						</button>
+					</div>
 				</div>
 			)}
 

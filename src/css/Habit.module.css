@@ -11,28 +11,3 @@
 	padding: 0.8rem;
 	overflow: hidden;
 }
-
-.calendarToggle {
-	position: absolute;
-	top: 0.8rem;
-	right: 0.8rem;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 24px;
-	height: 24px;
-	border: none;
-	border-radius: 50%;
-	cursor: pointer;
-	color: #e6e6e6;
-	z-index: 1;
-}
-
-.calendarToggle:hover {
-	opacity: 0.8;
-}
-
-.calendarToggle svg {
-	width: 20px;
-	height: 20px;
-}

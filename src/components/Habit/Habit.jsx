@@ -85,31 +85,24 @@ function Habit(props) {
 			<HabitHeader
 				{...{ ...props, colorPalette }}
 				{...{ isTodayCompleted, todayProgress, currentStreak }}
+				isCalendarExpanded={isCalendarExpanded}
+				onToggleCalendar={toggleCalendar}
 			/>
 
 			{!isArchive && (
-				<>
-					<button 
-						onClick={toggleCalendar}
-						className={styles.calendarToggle}
-						style={{ backgroundColor: colorPalette.darkenedColor }}
-					>
-						{isCalendarExpanded ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
-					</button>
-					<AnimatePresence>
-						{isCalendarExpanded && (
-							<motion.div 
-								className={styles.content}
-								initial={{ height: 0, opacity: 0 }}
-								animate={{ height: 'auto', opacity: 1 }}
-								exit={{ height: 0, opacity: 0 }}
-								transition={{ duration: 0.3 }}
-							>
-								{calendar}
-							</motion.div>
-						)}
-					</AnimatePresence>
-				</>
+				<AnimatePresence>
+					{isCalendarExpanded && (
+						<motion.div 
+							className={styles.content}
+							initial={{ height: 0, opacity: 0 }}
+							animate={{ height: 'auto', opacity: 1 }}
+							exit={{ height: 0, opacity: 0 }}
+							transition={{ duration: 0.3 }}
+						>
+							{calendar}
+						</motion.div>
+					)}
+				</AnimatePresence>
 			)}
 
 			<AnimatePresence>
