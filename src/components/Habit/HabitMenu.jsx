@@ -133,19 +133,22 @@ function HabitMenu(props) {
 	]].map(
 		([icon, text, bgColor, to, state, onClick, arrow]) => (
 			<li key={text}>
-				<Link 
-					to={to || '#'} 
-					state={state}
-					onClick={(e) => {
-						if (onClick) {
-							onClick();
-							e.preventDefault();
-						}
+				{onClick ? (
+					<div onClick={() => {
+						onClick();
 						onShowMenu(-1);
-					}}
-				>
-					<Button {...{ icon, text, bgColor, arrow }} />
-				</Link>
+					}}>
+						<Button {...{ icon, text, bgColor, arrow }} />
+					</div>
+				) : (
+					<Link 
+						to={to}
+						state={state}
+						onClick={() => onShowMenu(-1)}
+					>
+						<Button {...{ icon, text, bgColor, arrow }} />
+					</Link>
+				)}
 			</li>
 		)
 	);
