@@ -1,5 +1,3 @@
-import styles from '../css/MainPage.module.css';
-
 // framer
 import { motion } from 'framer-motion';
 
