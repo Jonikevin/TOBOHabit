@@ -41,7 +41,7 @@ function HabitMenu(props) {
 	const {
 		title, completedDays, colorIndex, colorPalette,
 		isTodayCompleted, isYesterdayCompleted, todayProgress, frequency, currentStreak,
-		onShowMenu, onShare, onToggleCalendar
+		onShowMenu, onShare
 	} = props;
 
 	const habitsDispatch = useHabitsStore((s) => s.habitsDispatch);
@@ -83,9 +83,7 @@ function HabitMenu(props) {
 			colorIndex,
 			frequency,
 			modalTitle: title,
-		},
-		null,
-		true
+		}
 	], [
 		<MdEditSquare />,
 		'Edit Habit',
@@ -150,12 +148,10 @@ function HabitMenu(props) {
 			<motion.div
 				className={styles.content}
 				{...contentVariants}
-
 				drag='y'
 				dragConstraints={{ top: 0, bottom: 0 }}
 				dragElastic={{ top: 0.1, bottom: 1 }}
 				onDragEnd={handleDragEnd}
-
 				onClick={(e) => e.stopPropagation()}
 			>
 				<div className={styles.handle} />
@@ -168,7 +164,7 @@ function HabitMenu(props) {
 					{buttons}
 				</ul>
 			</motion.div>
-		</motion.div >
+		</motion.div>
 	);
 }
 
