@@ -39,14 +39,14 @@ function Statistics() {
 	if (simpleView) {
 		return (
 			<Modal title="Calendar View">
-				<div className={styles.statisticsWrapper}>
+				<div className={styles.calendarWrapper}>
 					<div className={styles.streakInfo}>
 						<div>
 							<h3>Total Completed</h3>
 							<strong>{completedDays.length}</strong>
 						</div>
 					</div>
-					<div style={{ marginTop: '1rem' }}>
+					<div className={styles.calendarContainer}>
 						<Calendar
 							colorPalette={colorPalette}
 							completedDays={completedDays}
