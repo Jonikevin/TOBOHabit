@@ -81,8 +81,7 @@ function HabitMenu(props) {
 			completedDays,
 			colorPalette,
 			frequency,
-			modalTitle: title,
-			simpleView: true
+			modalTitle: title
 		},
 		null,
 		true
