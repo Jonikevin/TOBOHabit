@@ -23,7 +23,18 @@ import { FaAward, FaCalendarWeek, FaCalendarAlt, FaHashtag, FaBinoculars } from 
 function Statistics() {
 	const location = useLocation();
 	const { completedDays, frequency, colorPalette, simpleView } = location.state;
+	const { baseColor, darkenedColor } = colorPalette;
 
+	// --- Selected Year:START ---
+	const currYear = new Date().getFullYear();
+	const earliestYear = new Date(
+		completedDays[completedDays.length - 1]?.date
+	).getFullYear() || currYear;
+
+	const [selectedYear, setSelectedYear] = useState(currYear);
+	// --- Selected Year:END ---
+
+	// If simple view (Calendar), just show total completions
 	if (simpleView) {
 		return (
 			<Modal title="Calendar View">
@@ -39,19 +50,8 @@ function Statistics() {
 		);
 	}
 
-	const { baseColor, darkenedColor } = colorPalette;
-
-	// --- Selected Year:START ---
-	const currYear = new Date().getFullYear();
-	const earliestYear = new Date(
-		completedDays[completedDays.length - 1]?.date
-	).getFullYear() || currYear;
-
-	const [selectedYear, setSelectedYear] = useState(currYear);
-
 	const handleIncreaseYear = () => setSelectedYear((c) => c === currYear ? c : c + 1);
 	const handleDecreaseYear = () => setSelectedYear((c) => c === earliestYear ? c : c - 1);
-	// --- Selected Year:END ---
 
 	const selectedDays = completedDays.filter(
 		(day) => new Date(day.date).getFullYear() === selectedYear
