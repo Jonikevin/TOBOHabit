@@ -1,7 +1,7 @@
 import styles from '../../css/Habit.module.css';
 
 // react
-import { useMemo, useRef } from 'react';
+import { useMemo, useRef, useState } from 'react';
 
 // framer
 import { AnimatePresence, motion } from 'framer-motion';
@@ -14,6 +14,9 @@ import HabitHeader from './HabitHeader';
 import Calendar from './Calendar';
 import CompactCalendar from './CompactCalendar';
 import HabitMenu from './HabitMenu';
+
+// icons
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
 
 // utils
 import getColorPalette from '../../utils/getColorPalette';
@@ -34,6 +37,7 @@ function Habit(props) {
 		onShowMenu
 	} = props;
 
+	const [isCalendarExpanded, setIsCalendarExpanded] = useState(false);
 	const settings = useSettingsStore((s) => s.settings);
 	const habitRef = useRef(null);
 	const colorPalette = useMemo(() => getColorPalette(color), [color]);
@@ -65,6 +69,11 @@ function Habit(props) {
 
 	const habitVariants = getListAnimationVariants(0.3);
 
+	const toggleCalendar = (e) => {
+		e.stopPropagation();
+		setIsCalendarExpanded(!isCalendarExpanded);
+	};
+
 	return (
 		<motion.div
 			ref={habitRef}
@@ -79,9 +88,28 @@ function Habit(props) {
 			/>
 
 			{!isArchive && (
-				<div className={styles.content}>
-					{calendar}
-				</div>
+				<>
+					<button 
+						onClick={toggleCalendar}
+						className={styles.calendarToggle}
+						style={{ backgroundColor: colorPalette.darkenedColor }}
+					>
+						{isCalendarExpanded ? <MdKeyboardArrowUp /> : <MdKeyboardArrowDown />}
+					</button>
+					<AnimatePresence>
+						{isCalendarExpanded && (
+							<motion.div 
+								className={styles.content}
+								initial={{ height: 0, opacity: 0 }}
+								animate={{ height: 'auto', opacity: 1 }}
+								exit={{ height: 0, opacity: 0 }}
+								transition={{ duration: 0.3 }}
+							>
+								{calendar}
+							</motion.div>
+						)}
+					</AnimatePresence>
+				</>
 			)}
 
 			<AnimatePresence>
