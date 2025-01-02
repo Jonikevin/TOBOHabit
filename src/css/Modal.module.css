@@ -61,9 +61,53 @@
 	border-radius: 1rem;
 	overflow: auto;
 	max-height: calc(100vh - 12rem);
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
 }
 
 .calendarWrapper > div {
 	margin: 0 auto;
 	max-width: 100%;
+}
+
+.streakInfo {
+	display: flex;
+	justify-content: space-around;
+	gap: 2rem;
+	text-align: center;
+	padding: 1rem;
+	background-color: var(--bg-color-primary);
+	border-radius: 1rem;
+}
+
+.streakInfo h3 {
+	font-size: 0.9rem;
+	color: var(--text-color-secondary);
+	margin-bottom: 0.5rem;
+}
+
+.streakInfo strong {
+	font-size: 1.5rem;
+	color: var(--text-color-primary);
+}
+
+.chartSection {
+	background-color: var(--bg-color-primary);
+	border-radius: 1rem;
+	padding: 1rem;
+}
+
+.chartSection h3 {
+	font-size: 1rem;
+	color: var(--text-color-secondary);
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+.chartWrapper {
+	height: 200px;
+	width: 100%;
+	max-width: 600px;
+	margin: 0 auto;
 }
