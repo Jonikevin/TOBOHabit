@@ -4,7 +4,7 @@ import styles from '../../css/Modal.module.css';
 import { useLocation } from 'react-router-dom';
 
 // components
-import Modal from '../Modal/Modal';
+import Modal from '../../components/Modal/Modal';
 import MonthlyChart from './MonthlyChart';
 import WeekdayChart from './WeekdayChart';
 
