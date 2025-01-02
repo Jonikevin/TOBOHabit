@@ -19,6 +19,7 @@ import { FaShareAltSquare } from 'react-icons/fa';
 import { FaCalendarCheck } from 'react-icons/fa';
 import { FaCalendarTimes } from 'react-icons/fa';
 import { FaChartSimple } from 'react-icons/fa6';
+import { FaRegCalendarAlt } from 'react-icons/fa'; // calendar view
 
 // --- Variants:START ---
 const bgVariants = {
@@ -40,7 +41,7 @@ function HabitMenu(props) {
 	const {
 		title, completedDays, colorIndex, colorPalette,
 		isTodayCompleted, isYesterdayCompleted, todayProgress, frequency, currentStreak,
-		onShowMenu, onShare
+		onShowMenu, onShare, onToggleCalendar
 	} = props;
 
 	const habitsDispatch = useHabitsStore((s) => s.habitsDispatch);
@@ -71,6 +72,13 @@ function HabitMenu(props) {
 		null,
 		null,
 		() => handleCompleteYeserday()
+	], [
+		<FaRegCalendarAlt />,
+		'Calendar View',
+		darkenedColor,
+		null,
+		null,
+		onToggleCalendar
 	], [
 		<MdEditSquare />,
 		'Edit Habit',

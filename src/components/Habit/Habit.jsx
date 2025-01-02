@@ -67,8 +67,9 @@ function Habit(props) {
 	const habitVariants = getListAnimationVariants(0.3);
 
 	const toggleCalendar = (e) => {
-		e.stopPropagation();
+		if (e) e.stopPropagation();
 		setIsCalendarExpanded(!isCalendarExpanded);
+		onShowMenu(-1); // Close menu when calendar is toggled
 	};
 
 	return (
@@ -82,25 +83,7 @@ function Habit(props) {
 			<HabitHeader
 				{...{ ...props, colorPalette }}
 				{...{ isTodayCompleted, todayProgress, currentStreak }}
-				isCalendarExpanded={isCalendarExpanded}
-				onToggleCalendar={toggleCalendar}
 			/>
-
-			{!isArchive && (
-				<AnimatePresence>
-					{isCalendarExpanded && (
-						<motion.div 
-							className={styles.content}
-							initial={{ height: 0, opacity: 0 }}
-							animate={{ height: 'auto', opacity: 1 }}
-							exit={{ height: 0, opacity: 0 }}
-							transition={{ duration: 0.3 }}
-						>
-							{calendar}
-						</motion.div>
-					)}
-				</AnimatePresence>
-			)}
 
 			<AnimatePresence>
 				{(isMenuVisible && !isArchive) && (
@@ -110,7 +93,30 @@ function Habit(props) {
 						{...{ colorPalette, isTodayCompleted, isYesterdayCompleted, todayProgress, currentStreak }}
 						onShowMenu={onShowMenu}
 						onShare={handleShare}
+						onToggleCalendar={toggleCalendar}
 					/>
+				)}
+			</AnimatePresence>
+
+			<AnimatePresence>
+				{isCalendarExpanded && !isArchive && (
+					<motion.div 
+						className={styles.calendarOverlay}
+						initial={{ opacity: 0 }}
+						animate={{ opacity: 1 }}
+						exit={{ opacity: 0 }}
+						onClick={toggleCalendar}
+					>
+						<motion.div 
+							className={styles.calendarContent}
+							initial={{ scale: 0.9, opacity: 0 }}
+							animate={{ scale: 1, opacity: 1 }}
+							exit={{ scale: 0.9, opacity: 0 }}
+							onClick={(e) => e.stopPropagation()}
+						>
+							{calendar}
+						</motion.div>
+					</motion.div>
 				)}
 			</AnimatePresence>
 		</motion.div>
