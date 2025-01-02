@@ -6,23 +6,30 @@ import { useLocation } from 'react-router-dom';
 // components
 import Modal from './Modal';
 import Calendar from '../Habit/Calendar';
-import CompactCalendar from '../Habit/CompactCalendar';
-
-// stores
-import { useSettingsStore } from '../../stores/settingsStore';
 
 function CalendarModal() {
 	const { state } = useLocation();
-	const { completedDays, colorPalette, frequency, modalTitle } = state;
-	const settings = useSettingsStore((s) => s.settings);
+	console.log("Calendar Modal State:", state); // Debug log
 
-	const CalendarComponent = settings.calendarView === 'compact' ? CompactCalendar : Calendar;
+	if (!state || !state.completedDays || !state.colorPalette) {
+		return (
+			<Modal title="Calendar">
+				<div className={styles.calendarWrapper}>
+					<div>No data available</div>
+				</div>
+			</Modal>
+		);
+	}
+
+	const { completedDays, colorPalette, frequency, modalTitle } = state;
 
 	return (
-		<Modal title={modalTitle}>
+		<Modal title={modalTitle || "Calendar"}>
 			<div className={styles.calendarWrapper}>
-				<CalendarComponent
-					{...{ completedDays, colorPalette, frequency }}
+				<Calendar
+					colorPalette={colorPalette}
+					completedDays={completedDays}
+					frequency={frequency || 1}
 				/>
 			</div>
 		</Modal>

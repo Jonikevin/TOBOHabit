@@ -78,11 +78,13 @@ function HabitMenu(props) {
 		darkenedColor,
 		'/modal/calendar',
 		{
-			completedDays,
-			colorPalette,
-			colorIndex,
-			frequency,
-			modalTitle: title,
+			completedDays: completedDays || [],
+			colorPalette: {
+				baseColor: colorPalette.baseColor,
+				darkenedColor: colorPalette.darkenedColor
+			},
+			frequency: frequency || 1,
+			modalTitle: title
 		}
 	], [
 		<MdEditSquare />,

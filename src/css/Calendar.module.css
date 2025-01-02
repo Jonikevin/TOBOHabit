@@ -5,6 +5,14 @@
 	padding: 1rem;
 	background-color: var(--bg-color-primary);
 	border-radius: 1rem;
+	min-width: 300px;
+}
+
+.monthTitle {
+	text-align: center;
+	margin-bottom: 1rem;
+	font-size: 1.2rem;
+	color: var(--text-color-primary);
 }
 
 .weekdays {
@@ -33,6 +41,7 @@
 	justify-content: center;
 	border-radius: 0.3rem;
 	font-size: 0.9rem;
+	min-height: 2.5rem;
 }
 
 .emptyDay {
@@ -42,6 +51,7 @@
 .day {
 	background-color: var(--bg-color-secondary);
 	transition: transform 0.2s ease;
+	cursor: pointer;
 }
 
 .day:hover {

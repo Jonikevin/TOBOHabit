@@ -3,8 +3,11 @@ import styles from '../../css/Calendar.module.css';
 // utils
 import checkHabitCompletion from '../../utils/checkHabitCompletion';
 
-function Calendar({ colorPalette, completedDays, frequency }) {
-	const { baseColor, darkenedColor } = colorPalette;
+function Calendar({ colorPalette, completedDays = [], frequency = 1 }) {
+	// Ensure we have valid colorPalette
+	const baseColor = colorPalette?.baseColor || '#4a4a4a';
+	const darkenedColor = colorPalette?.darkenedColor || '#2a2a2a';
+
 	const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 	const today = new Date();
 	const currentMonth = today.getMonth();
@@ -27,8 +30,12 @@ function Calendar({ colorPalette, completedDays, frequency }) {
 	// Check completion status for all dates
 	const completionStatus = checkHabitCompletion(completedDays, frequency, ...dates);
 
+	// Get month name
+	const monthName = firstDay.toLocaleString('default', { month: 'long' });
+
 	return (
 		<div className={styles.calendar}>
+			<h2 className={styles.monthTitle}>{monthName} {currentYear}</h2>
 			<div className={styles.weekdays}>
 				{weekdays.map(day => (
 					<div key={day} className={styles.weekday}>{day}</div>
