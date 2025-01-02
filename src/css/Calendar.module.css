@@ -6,6 +6,7 @@
 	background-color: var(--bg-color-primary);
 	border-radius: 1rem;
 	min-width: 300px;
+	z-index: 1000;
 }
 
 .monthTitle {

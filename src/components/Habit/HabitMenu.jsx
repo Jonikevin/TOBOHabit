@@ -76,14 +76,13 @@ function HabitMenu(props) {
 		<FaRegCalendarAlt />,
 		'Calendar View',
 		darkenedColor,
-		'/modal/statistics',
+		'/modal/calendar',
 		{
 			completedDays,
 			colorPalette,
-			colorIndex,
 			frequency,
 			modalTitle: title,
-			simpleView: true,
+			simpleView: true
 		},
 		null,
 		true
