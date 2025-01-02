@@ -3,7 +3,7 @@ import styles from '../../css/Statistics.module.css';
 // react
 import { useState } from 'react';
 
-// router
+// router   q
 import { useLocation } from 'react-router-dom';
 
 // components
