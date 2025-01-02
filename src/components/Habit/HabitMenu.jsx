@@ -76,9 +76,16 @@ function HabitMenu(props) {
 		<FaRegCalendarAlt />,
 		'Calendar View',
 		darkenedColor,
+		'/modal/calendar',
+		{
+			completedDays,
+			colorPalette,
+			colorIndex,
+			frequency,
+			modalTitle: title,
+		},
 		null,
-		null,
-		onToggleCalendar
+		true
 	], [
 		<MdEditSquare />,
 		'Edit Habit',

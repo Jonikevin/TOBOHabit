@@ -1,7 +1,7 @@
 import styles from '../../css/Habit.module.css';
 
 // react
-import { useMemo, useRef, useState } from 'react';
+import { useMemo, useRef } from 'react';
 
 // framer
 import { AnimatePresence, motion } from 'framer-motion';
@@ -11,8 +11,6 @@ import { useSettingsStore } from '../../stores/settingsStore';
 
 // components
 import HabitHeader from './HabitHeader';
-import Calendar from './Calendar';
-import CompactCalendar from './CompactCalendar';
 import HabitMenu from './HabitMenu';
 
 // utils
@@ -34,7 +32,6 @@ function Habit(props) {
 		onShowMenu
 	} = props;
 
-	const [isCalendarExpanded, setIsCalendarExpanded] = useState(false);
 	const settings = useSettingsStore((s) => s.settings);
 	const habitRef = useRef(null);
 	const colorPalette = useMemo(() => getColorPalette(color), [color]);
@@ -51,26 +48,7 @@ function Habit(props) {
 
 	const handleShare = () => shareHabit(habitRef.current);
 
-	const calendar = useMemo(
-		() => {
-			const props = { colorPalette, completedDays, frequency };
-
-			return settings.calendarView === 'compact' ? (
-				<CompactCalendar {...props} />
-			) : (
-				<Calendar {...props} />
-			);
-		},
-		[colorPalette, completedDays, frequency, settings.calendarView]
-	);
-
 	const habitVariants = getListAnimationVariants(0.3);
-
-	const toggleCalendar = (e) => {
-		if (e) e.stopPropagation();
-		setIsCalendarExpanded(!isCalendarExpanded);
-		onShowMenu(-1); // Close menu when calendar is toggled
-	};
 
 	return (
 		<motion.div
@@ -93,30 +71,7 @@ function Habit(props) {
 						{...{ colorPalette, isTodayCompleted, isYesterdayCompleted, todayProgress, currentStreak }}
 						onShowMenu={onShowMenu}
 						onShare={handleShare}
-						onToggleCalendar={toggleCalendar}
 					/>
-				)}
-			</AnimatePresence>
-
-			<AnimatePresence>
-				{isCalendarExpanded && !isArchive && (
-					<motion.div 
-						className={styles.calendarOverlay}
-						initial={{ opacity: 0 }}
-						animate={{ opacity: 1 }}
-						exit={{ opacity: 0 }}
-						onClick={toggleCalendar}
-					>
-						<motion.div 
-							className={styles.calendarContent}
-							initial={{ scale: 0.9, opacity: 0 }}
-							animate={{ scale: 1, opacity: 1 }}
-							exit={{ scale: 0.9, opacity: 0 }}
-							onClick={(e) => e.stopPropagation()}
-						>
-							{calendar}
-						</motion.div>
-					</motion.div>
 				)}
 			</AnimatePresence>
 		</motion.div>

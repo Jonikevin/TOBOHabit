@@ -54,3 +54,16 @@
 	padding-top: 0;
 	overflow-y: scroll;
 }
+
+.calendarWrapper {
+	padding: 1rem;
+	background-color: var(--bg-color-secondary);
+	border-radius: 1rem;
+	overflow: auto;
+	max-height: calc(100vh - 12rem);
+}
+
+.calendarWrapper > div {
+	margin: 0 auto;
+	max-width: 100%;
+}
