@@ -13,6 +13,7 @@ import Card from './Card';
 import WeekdayChart from './WeekdayChart';
 import MonthlyChart from './MonthlyChart';
 import StreakHistory from './StreakHistory';
+import Calendar from '../Habit/Calendar';
 
 // utils
 import getStreaks from '../../utils/getStreaks';
@@ -34,7 +35,7 @@ function Statistics() {
 	const [selectedYear, setSelectedYear] = useState(currYear);
 	// --- Selected Year:END ---
 
-	// If simple view (Calendar), just show total completions
+	// If simple view (Calendar), just show total completions and calendar
 	if (simpleView) {
 		return (
 			<Modal title="Calendar View">
@@ -44,6 +45,13 @@ function Statistics() {
 							<h3>Total Completed</h3>
 							<strong>{completedDays.length}</strong>
 						</div>
+					</div>
+					<div style={{ marginTop: '1rem' }}>
+						<Calendar
+							colorPalette={colorPalette}
+							completedDays={completedDays}
+							frequency={frequency}
+						/>
 					</div>
 				</div>
 			</Modal>
