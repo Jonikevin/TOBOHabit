@@ -83,14 +83,7 @@ function HabitMenu(props) {
 			frequency,
 			modalTitle: title
 		},
-		() => {
-			console.log("Calendar button clicked", {
-				completedDays,
-				colorPalette,
-				frequency,
-				modalTitle: title
-			});
-		},
+		null,
 		true
 	], [
 		<MdEditSquare />,
@@ -145,10 +138,10 @@ function HabitMenu(props) {
 					state={state}
 					onClick={(e) => {
 						if (onClick) {
-							e.preventDefault();
 							onClick();
+							e.preventDefault();
 						}
-						console.log(`Clicked ${text}`, { to, state });
+						onShowMenu(-1);
 					}}
 				>
 					<Button {...{ icon, text, bgColor, arrow }} />

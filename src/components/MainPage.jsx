@@ -1,59 +1,89 @@
-// framer
-import { motion } from 'framer-motion';
+import styles from '../css/MainPage.module.css';
 
-// components
-import Header from './Header';
-import HabitList from './HabitList';
-import Placeholder from './Placeholder';
+// react
+import { useState } from 'react';
 
-// icons
-import { ReactComponent as Calendar } from '../img/calendar.svg';
-import { MdAddToPhotos } from "react-icons/md";
+// router
+import { Outlet } from 'react-router-dom';
+
+// stores
 import { useHabitsStore } from '../stores/habitsStore';
 
-// Get version from package.json
-const version = "0.20.2"; // Current version
+// components
+import Habit from './Habit/Habit';
+import Button from './Button';
 
-const mainVariants = {
-	initial: { opacity: 0 },
-	animate: { opacity: 1 },
-	exit: { opacity: 0 },
-	transition: { duration: .3, ease: 'easeOut' }
-};
+// icons
+import { MdAdd } from 'react-icons/md';
+import { MdOutlineSettingsBackupRestore } from 'react-icons/md';
 
 function MainPage() {
 	const habits = useHabitsStore((s) => s.habits);
-	const filteredHabits = habits.filter((h) => !h.isArchived);
+	const archivedHabits = useHabitsStore((s) => s.archivedHabits);
+	const [menuIndex, setMenuIndex] = useState(-1);
+
+	const handleShowMenu = (index) => setMenuIndex(index);
 
 	return (
-		<motion.div {...mainVariants}>
-			<div style={{ 
-				position: 'absolute', 
-				top: '1rem', 
-				right: '1rem',
-				fontSize: '1rem',
-				fontWeight: 'bold',
-				color: 'IndianRed',
-				zIndex: 1000
-			}}>
-				v{version}
-			</div>
-			<Header />
-
-			<HabitList habits={filteredHabits} />
-
-			{filteredHabits.length === 0 && (
-				<Placeholder
-					image={<Calendar />}
-					title="No active habits found"
-					desc="Why not create one now?"
-					textOnButton="Create First Habit"
-					buttonIcon={<MdAddToPhotos />}
-					to={`${process.env.PUBLIC_URL}/modal/habitEditor`}
-					state={{ modalTitle: 'Create new habit' }}
+		<div className={styles.mainPage}>
+			<div className={styles.header}>
+				<h2>TOBOHabit</h2>
+				<Button
+					icon={<MdAdd />}
+					text='Add Habit'
+					to='/modal/habitEditor'
+					state={{ modalTitle: 'New habit' }}
+					arrow
 				/>
-			)}
-		</motion.div>
+			</div>
+
+			<div className={styles.content}>
+				{habits.length === 0 && (
+					<div className={styles.emptyMessage}>
+						<h3>No habits yet</h3>
+						<small>Click the "Add Habit" button to create one.</small>
+					</div>
+				)}
+
+				<div className={styles.habitList}>
+					{habits.map((habit, index) => (
+						<Habit
+							key={habit.title}
+							{...habit}
+							index={index}
+							isMenuVisible={menuIndex === index}
+							onShowMenu={handleShowMenu}
+						/>
+					))}
+				</div>
+
+				{archivedHabits.length > 0 && (
+					<div className={styles.dangerZone}>
+						<div className={styles.dangerHeader}>
+							<h3>Danger Zone</h3>
+							<small>v0.20.2</small>
+						</div>
+
+						<div className={styles.archivedHabits}>
+							<h4>Archived Habits</h4>
+
+							<div className={styles.habitList}>
+								{archivedHabits.map((habit, index) => (
+									<Habit
+										key={habit.title}
+										{...habit}
+										index={index}
+										isArchive
+									/>
+								))}
+							</div>
+						</div>
+					</div>
+				)}
+			</div>
+
+			<Outlet />
+		</div>
 	);
 }
 

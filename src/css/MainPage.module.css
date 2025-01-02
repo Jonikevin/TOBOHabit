@@ -1,0 +1,61 @@
+.mainPage {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	padding: 1rem;
+}
+
+.header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.content {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+	overflow-y: auto;
+}
+
+.emptyMessage {
+	text-align: center;
+	margin-top: 2rem;
+	color: var(--text-color-secondary);
+}
+
+.habitList {
+	display: flex;
+	flex-direction: column;
+	gap: 0.4rem;
+}
+
+.dangerZone {
+	margin-top: 2rem;
+	padding: 1rem;
+	background-color: rgba(205, 92, 92, 0.1);
+	border-radius: 1rem;
+}
+
+.dangerHeader {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1rem;
+}
+
+.dangerHeader h3 {
+	color: IndianRed;
+}
+
+.dangerHeader small {
+	color: IndianRed;
+	font-weight: bold;
+}
+
+.archivedHabits h4 {
+	margin-bottom: 0.5rem;
+	color: var(--text-color-secondary);
+}
