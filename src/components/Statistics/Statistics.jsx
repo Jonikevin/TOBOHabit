@@ -1,145 +1,96 @@
-import styles from '../../css/Statistics.module.css';
-
-// react
-import { useState } from 'react';
+import styles from '../../css/Modal.module.css';
 
 // router
 import { useLocation } from 'react-router-dom';
 
 // components
-import YearPicker from './YearPicker';
-import Card from './Card';
-import WeekdayChart from './WeekdayChart';
+import Modal from '../Modal/Modal';
 import MonthlyChart from './MonthlyChart';
-import StreakHistory from './StreakHistory';
+import WeekdayChart from './WeekdayChart';
 
 // utils
 import getStreaks from '../../utils/getStreaks';
 
-// icons
-import { FaAward, FaCalendarWeek, FaCalendarAlt, FaHashtag, FaBinoculars } from "react-icons/fa";
-
 function Statistics() {
-
-	const location = useLocation();
-
-	const {
-		completedDays, frequency, colorPalette
-	} = location.state;
-
-	const { baseColor, darkenedColor } = colorPalette;
-
-	// --- Selected Year:START ---
-	const currYear = new Date().getFullYear();
-	const earliestYear = new Date(
-		completedDays[completedDays.length - 1]?.date
-	).getFullYear() || currYear;
-
-	const [selectedYear, setSelectedYear] = useState(currYear);
-
-	const handleIncreaseYear = () => setSelectedYear((c) => c === currYear ? c : c + 1);
-	const handleDecreaseYear = () => setSelectedYear((c) => c === earliestYear ? c : c - 1);
-	// --- Selected Year:END ---
-
-	const selectedDays = completedDays.filter(
-		(day) => new Date(day.date).getFullYear() === selectedYear
-	);
-
-	// --- Streaks:START ---
-	const { currentStreak } = getStreaks(completedDays, frequency);
-	const { allStreaks, longestStreak } = getStreaks(selectedDays, frequency);
-	const filteredStreaks = allStreaks.filter((s) => s.length > 1);
-	// --- Streaks:END ---
-
-	const percentageDifference = Math.floor(
-		((currentStreak - longestStreak) / (longestStreak || 1)) * 100
-	);
+	const { state } = useLocation();
+	const { completedDays, colorPalette, frequency, modalTitle, simpleView } = state;
+	const { currentStreak, longestStreak } = getStreaks(completedDays, frequency);
 
 	const chartOptions = {
+		responsive: true,
+		maintainAspectRatio: false,
 		scales: {
 			x: {
-				grid: { color: darkenedColor, lineWidth: 0.4 },
-				ticks: { color: 'gray' }
+				grid: { display: false },
+				ticks: { color: '#e6e6e6' }
 			},
-
 			y: {
-				grid: { color: darkenedColor, lineWidth: 0.4 },
-				ticks: { color: 'gray' }
+				beginAtZero: true,
+				grid: { color: '#2a2a2a' },
+				ticks: { color: '#e6e6e6', stepSize: 1 }
 			}
+		},
+		plugins: {
+			legend: { display: false }
 		}
 	};
 
 	return (
-		<div className={styles.statistics}>
-			<YearPicker
-				{...{ earliestYear, currYear, selectedYear }}
-				increase={handleIncreaseYear}
-				decrease={handleDecreaseYear}
-			/>
+		<Modal title={modalTitle}>
+			<div className={styles.statisticsWrapper}>
+				{simpleView ? (
+					// Simple view for Calendar button
+					<div className={styles.streakInfo}>
+						<div>
+							<h3>Total Completed</h3>
+							<strong>{completedDays.length}</strong>
+						</div>
+					</div>
+				) : (
+					// Full statistics view
+					<>
+						<div className={styles.streakInfo}>
+							<div>
+								<h3>Current Streak</h3>
+								<strong>{currentStreak}</strong>
+							</div>
+							<div>
+								<h3>Longest Streak</h3>
+								<strong>{longestStreak}</strong>
+							</div>
+							<div>
+								<h3>Completions</h3>
+								<strong>{completedDays.length}</strong>
+							</div>
+						</div>
 
-			<div style={{ display: 'flex', gap: '1rem' }}>
-				<Card
-					title="Current"
-					icon={percentageDifference + '%'}
-					accentColor={percentageDifference < 0 ? 'IndianRed' : '#57a639'}
-					contentStyle={{ fontSize: '2.2rem', fontWeight: 'bold' }}
-				>
-					{currentStreak}
-				</Card>
+						<div className={styles.chartSection}>
+							<h3>Monthly Progress</h3>
+							<div className={styles.chartWrapper}>
+								<MonthlyChart
+									options={chartOptions}
+									days={completedDays}
+									frequency={frequency}
+									color={colorPalette.baseColor}
+								/>
+							</div>
+						</div>
 
-				<Card
-					title="Longest"
-					icon={<FaAward style={{ color: baseColor }} />}
-					contentStyle={{ fontSize: '2.2rem', fontWeight: 'bold' }}
-				>
-					{longestStreak}
-				</Card>
+						<div className={styles.chartSection}>
+							<h3>Weekly Progress</h3>
+							<div className={styles.chartWrapper}>
+								<WeekdayChart
+									options={chartOptions}
+									days={completedDays}
+									frequency={frequency}
+									color={colorPalette.baseColor}
+								/>
+							</div>
+						</div>
+					</>
+				)}
 			</div>
-
-			<Card
-				title="Completions / Weekday"
-				icon={<FaCalendarWeek style={{ color: baseColor }} />}
-			>
-				<WeekdayChart
-					{...{ color: baseColor }}
-					days={selectedDays}
-					frequency={frequency}
-					options={chartOptions}
-				/>
-			</Card>
-
-			<Card
-				title="Total Completed"
-				icon={<FaHashtag style={{ color: baseColor }} />}
-				contentStyle={{ fontSize: '2.2rem', fontWeight: 'bold' }}
-			>
-				{selectedDays.length}
-			</Card>
-
-			<Card
-				title="Completions / Month"
-				icon={<FaCalendarAlt style={{ color: baseColor }} />}
-			>
-				<MonthlyChart
-					{...{ color: baseColor }}
-					days={selectedDays}
-					frequency={frequency}
-					options={chartOptions}
-				/>
-			</Card>
-
-			{filteredStreaks.length > 0 && (
-				<Card
-					title="Streak History"
-					desc="Shows streaks of 2 days or more."
-					icon={<FaBinoculars style={{ color: baseColor }} />}
-				>
-					<StreakHistory
-						{...{ colorPalette, streaks: filteredStreaks }}
-					/>
-				</Card>
-			)}
-		</div>
+		</Modal>
 	);
 }
 

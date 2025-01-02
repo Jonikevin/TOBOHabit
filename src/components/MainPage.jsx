@@ -31,8 +31,10 @@ function MainPage() {
 				position: 'absolute', 
 				top: '1rem', 
 				right: '1rem',
-				fontSize: '0.8rem',
-				color: 'var(--text-color-secondary)'
+				fontSize: '1rem',
+				fontWeight: 'bold',
+				color: 'IndianRed',
+				zIndex: 1000
 			}}>
 				v{version}
 			</div>

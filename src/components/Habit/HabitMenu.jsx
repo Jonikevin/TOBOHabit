@@ -83,6 +83,7 @@ function HabitMenu(props) {
 			colorIndex,
 			frequency,
 			modalTitle: title,
+			simpleView: true,
 		},
 		null,
 		true
